@@ -1,15 +1,9 @@
 import System.Random
 -- import Numeric.MCMC.Slice -- wanted to use this but decided to hand-code slice sampling function instead
 
-{- Task -}
--- copy-pasta:
--- - Given only yellow customers, what are the average and maximum customer waiting times?
--- - Given only red customers, what are the average and maximum queue lengths in-front of the teller?
--- - Which type of customer(yellow, red or blue) gives the gives the closest value between the average and maximum customer waiting times?
-
 {- maths -}
 -- CDF is 1 - e^(-t/a)
--- PDF is (1/a) * e^(-t/a)
+-- PDF is (1/a) * e^(-t/a) -- computed by hand the derivative of CDF
 -- probability density function PDF must be used, for slice sampling
 
 -- probability that next customer arrives t seconds later
@@ -43,7 +37,6 @@ bY = b 2 5 -- Y for yellow
 bR = b 2 2 -- R for red
 bB = b 5 1 -- B for blue
 
-
 -- random number generation
 gen :: StdGen
 gen = mkStdGen 1
@@ -52,6 +45,11 @@ randsAB :: Double -> Double -> [Double]
 randsAB a b = randomRs (a,b) gen
 rands = randsAB 0 1
 
+{- Task -}
+-- copy-pasta:
+-- - Given only yellow customers, what are the average and maximum customer waiting times?
+-- - Given only red customers, what are the average and maximum queue lengths in-front of the teller?
+-- - Which type of customer(yellow, red or blue) gives the gives the closest value between the average and maximum customer waiting times?
 
 
 -- test rands
