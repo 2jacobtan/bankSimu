@@ -1,1 +1,2 @@
 # bankSimu
+use bankSimu.hs
