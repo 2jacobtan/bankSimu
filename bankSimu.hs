@@ -1,5 +1,8 @@
 import System.Random
--- import Numeric.MCMC.Slice -- wanted to use this but decided to hand-code slice sampling function instead
+import Data.List.Split
+-- import Numeric.MCMC.Slice
+  -- from https://hackage.haskell.org/package/speedy-slice
+  -- wanted to use this but decided to hand-code slice sampling function instead
 
 {- maths -}
 -- CDF is 1 - e^(-t/a)
@@ -65,13 +68,13 @@ rands = randsAB 0 1
   -- slice sampling for arrival time takes 2
   -- processing time takes 1
 
-n = 100 -- number of customers to simulate
-
 -- Given only yellow customers, what are the average and maximum customer waiting times?
 task1 :: Int -> (Double, Double)
 task1 n = go []
   where
     go queue = undefined
+    randList :: [ [Double] ]
+    randList = take n $ splitEvery 3 $ rands
 
 
 -- test rands
