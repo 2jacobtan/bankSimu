@@ -29,9 +29,10 @@ ss x0 r1 r2 = -- random: r1 and r2
 -- copy-pasta from:
 -- https://www.notion.so/Bank-Simulation-94b50cdebe0b4da1b1297a7b01744682
 -- To get the processing time for the customer, generate a random value between 0 and 1 and set x to it. The result of the equation will be the time in seconds that this customer takes to process.
-b a b x = p * x^(a-1) * (1-x)^(b-1)
-  where
-    p = 200
+b a b x = -- random: x
+  p * x^(a-1) * (1-x)^(b-1)
+    where
+      p = 200
 
 bY = b 2 5 -- Y for yellow
 bR = b 2 2 -- R for red
@@ -50,6 +51,27 @@ rands = randsAB 0 1
 -- - Given only yellow customers, what are the average and maximum customer waiting times?
 -- - Given only red customers, what are the average and maximum queue lengths in-front of the teller?
 -- - Which type of customer(yellow, red or blue) gives the gives the closest value between the average and maximum customer waiting times?
+
+{- Soloution v1 (abandoned) -}
+-- generate list (length n) of tulpes:
+  -- (time taken to arrive after previous customer, processing time taken)
+-- fold over the list to get required statistics
+
+{- Soloution v2 -}
+-- while folding over list of random numbers,
+  -- generate next customer parameters: arrival, time needed
+  -- keep track of statistics
+-- each customer takes 3 random numbers to generate:
+  -- slice sampling for arrival time takes 2
+  -- processing time takes 1
+
+n = 100 -- number of customers to simulate
+
+-- Given only yellow customers, what are the average and maximum customer waiting times?
+task1 :: Int -> (Double, Double)
+task1 n = go []
+  where
+    go queue = undefined
 
 
 -- test rands
