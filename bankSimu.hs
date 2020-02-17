@@ -22,9 +22,9 @@ f_inv y = a * (log (1/a) - log(y) )
 -- slice sampling
 -- algorithm from https://en.wikipedia.org/wiki/Slice_sampling
 -- cf. YouTube https://www.youtube.com/watch?v=Qr6tg9oLGTA&t=1h8m44s
-ss :: Double -> Double -> Double -> (Double, Double)
+ss :: Double -> Double -> Double -> Double
 ss x0 r1 r2 = -- random: r1 and r2
-  (x,y)
+  x
     where
       y = r1 * f x0
       x = r2 * f_inv y
@@ -70,14 +70,40 @@ rands = randsAB 0 1
 
 -- Given only yellow customers, what are the average and maximum customer waiting times?
 task1 :: Int -> (Double, Double) -- returns (totalTime, maxTime)
-task1 n = case foldl go ([], (0,0), 0, 0) randList of
-  (_, _, totalTime, maxTime) -> (totalTime, maxTime)
+task1 n = (totalTime, maxTime)
   where
-    go accum r = undefined
+    (_, _, totalTime, maxTime) = foldl go ([0], (0,0), 0, 0) randList
+    -- queue is a queue of process times of customers waiting in the queue
+    go (queue0, (ss0, b0), waitedTime0, maxTime0) rList =
+      ( queue2, (ss1, b1), waitedTime2, 0 )
       where
-        -- queue is a queue of process times of customers waiting in the queue
-        (queue, (ss0, b0), totalTime0, maxTime0) = accum
-        [r0,r1,r2] = r
+        -- only used by first guard
+        (queue2, waitedTime2, _) = processing (queue0, waitedTime0, ss1)
+        processing :: ( [Double], Double, Double ) -> ( [Double], Double, Double )
+        processing (queue0, waitedTime0, residualTime0)
+          -- base case
+          | residualTime0 == 0 = (queue0, waitedTime0, residualTime0)
+          -- add up time waited until residualTime (time until next customer) is depleted
+          | otherwise = processing (queue1, waitedTime1, residualTime1)
+          where
+            -- time until next customer arrives, minus process time of presently-served customer
+              -- if it is <= 0, then next customer arrives before present one is done
+            residualTime' = residualTime0 - head queue0
+            residualTime1
+              | residualTime' <= 0 = 0
+              | otherwise = residualTime'
+            waitedTime1
+              | residualTime' <= 0 = residualTime0 * (fromIntegral $ length queue0)
+              | otherwise = head queue0 * (fromIntegral $ length queue0)
+            queue1
+              | residualTime' <= 0 = queue0
+              | otherwise = tail queue0
+        -- only used by second guard
+        queue2b = undefined
+        waitedTime2b = undefined
+        -- used by go
+        [r0,r1,r2] = rList
+        -- generate new customer's arrival time and process time
         (ss1, b1) = (ss ss0 r0 r1, bY r2)
     randList :: [ [Double] ]
     randList = take n $ splitEvery 3 $ rands
