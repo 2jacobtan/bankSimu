@@ -1,12 +1,11 @@
 import System.Random
--- import Numeric.MCMC.Slice
+-- import Numeric.MCMC.Slice -- wanted to use this but decided to hand-code slice sampling function instead
 
 {- Task -}
 -- copy-pasta:
 -- - Given only yellow customers, what are the average and maximum customer waiting times?
 -- - Given only red customers, what are the average and maximum queue lengths in-front of the teller?
 -- - Which type of customer(yellow, red or blue) gives the gives the closest value between the average and maximum customer waiting times?
-
 
 {- maths -}
 -- CDF is 1 - e^(-t/a)
@@ -33,8 +32,8 @@ ss x0 r1 r2 = -- random: r1 and r2
       y = r1 * f x0
       x = r2 * f_inv y
 
-
--- copy-pasta:
+-- copy-pasta from:
+-- https://www.notion.so/Bank-Simulation-94b50cdebe0b4da1b1297a7b01744682
 -- To get the processing time for the customer, generate a random value between 0 and 1 and set x to it. The result of the equation will be the time in seconds that this customer takes to process.
 b a b x = p * x^(a-1) * (1-x)^(b-1)
   where
