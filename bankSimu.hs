@@ -61,7 +61,7 @@ rands = randsAB 0 1
 -- fold over the list to get required statistics
 
 {- Soloution v2 -}
--- while folding over list of random numbers,
+-- while folding over list of random numbers:
   -- generate next customer parameters: arrival, time needed
   -- keep track of statistics
 -- each customer takes 3 random numbers to generate:
@@ -69,10 +69,16 @@ rands = randsAB 0 1
   -- processing time takes 1
 
 -- Given only yellow customers, what are the average and maximum customer waiting times?
-task1 :: Int -> (Double, Double)
-task1 n = go []
+task1 :: Int -> (Double, Double) -- returns (totalTime, maxTime)
+task1 n = case foldl go ([], (0,0), 0, 0) randList of
+  (_, _, totalTime, maxTime) -> (totalTime, maxTime)
   where
-    go queue = undefined
+    go accum r = undefined
+      where
+        -- queue is a queue of process times of customers waiting in the queue
+        (queue, (ss0, b0), totalTime0, maxTime0) = accum
+        [r0,r1,r2] = r
+        (ss1, b1) = (ss ss0 r0 r1, bY r2)
     randList :: [ [Double] ]
     randList = take n $ splitEvery 3 $ rands
 
@@ -81,5 +87,5 @@ task1 n = go []
 main :: IO ()
 main = do
   print $ take 10 $ rands
-
+  print $ task1 10
 
