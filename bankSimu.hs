@@ -67,8 +67,8 @@ rands = randsAB 0 1
 
 -- Given only yellow customers, what are the average and maximum customer waiting times?
 type Accumulator = ([(Double,Double)], Double, Double, Double, Double)
-task1 :: Int -> (Double, Double) -- returns (waitedTime, maxTime)
-task1 n = (waitedTime / fromIntegral n, maxTime)
+task1 :: (Double -> Double) -> Int -> (Double, Double) -- returns (waitedTime, maxTime)
+task1 bColour n = (waitedTime / fromIntegral n, maxTime)
 -- task1 n = (q, ss3, waitedTime / fromIntegral n, maxTime, currTime3)
   -- for debug
   where
@@ -95,15 +95,37 @@ task1 n = (waitedTime / fromIntegral n, maxTime)
         [r0,r1,r2] = rList
         -- generate new customer's arrival time and process time
         ss1 = ss ss0 r0 r1
-        b1 = bY r2
+        b1 = bColour r2
 randList :: Int -> [ [Double] ]
 randList n = take n $ splitEvery 3 $ rands
 
--- test rands
 main :: IO ()
 main = do
-  print $ take 1 $ rands
-  -- print $ foldl' (++) [] (randList 2)
+  putStrLn "Task 1:"
+  putStrLn "average wait time, maximum wait time"
+  t1 1000
+  putStrLn ""
+  t3 1000
 
 t1 n = do
-  print $ task1 n
+  print $ task1 bY n
+
+t3 n = do
+  putStrLn "Task 3:"
+  print $ yellow
+  print (let (avg,max) = yellow in max - avg)
+  putStrLn "= Yellow difference\n"
+  print $ red
+  print (let (avg,max) = red in max - avg)
+  putStrLn "= Red difference\n"
+  print $ blue
+  print (let (avg,max) = blue in max - avg)
+  putStrLn "= Blue difference\n"
+  where
+    yellow = task1 bY n
+    red = task1 bR n
+    blue = task1 bB n
+-- misc tests
+test = do
+  print $ take 1 $ rands
+  print $ foldl' (++) [] (randList 2)
