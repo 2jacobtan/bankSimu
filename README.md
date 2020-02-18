@@ -26,3 +26,8 @@ Have never encountered such a problem before, and took a while to explore differ
 Some kind of brute-force algorithm may have sufficed, but I wanted to write an algorithm that was faster and more elegant.
 
 Considered using existing slice sampling module, e.g. https://hackage.haskell.org/package/speedy-slice, but since the PDF was strictly monotonic, I could code a much faster algorithm using the inverse PDF function.
+
+# GHCI (REPL) output:
+![GHCI outut](https://github.com/2jacobtan/bankSimu/blob/master/Screenshots%20of%20assignment/GHCI%20(REPL)%20output.PNG)
+
+Simulating 10,000 customers for each task. Code runs in less than 3 seconds on GHCI interpreter.
