@@ -103,10 +103,10 @@ main :: IO ()
 main = do
   putStrLn "Task 1:"
   putStrLn "average wait time, maximum wait time"
-  t1 1000
+  t1 10000
   putStrLn ""
-  t3 1000
-  t2 1000
+  t3 10000
+  t2 10000
 
 t1 n = do
   print $ task1 bY n
