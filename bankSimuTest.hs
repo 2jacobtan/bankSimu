@@ -10,11 +10,15 @@ import Data.List (foldl')
 -- PDF is (1/a) * e^(-t/a) -- computed by hand the derivative of CDF
 -- probability density function PDF must be used, for slice sampling
 
-a = 100
 -- probability that next customer arrives t seconds later
 f t = (1/a) * exp (-t/a)
+  where
+    a = 100
+
 -- inverse of f (formula done by hand)
 f_inv y = a * (log (1/a) - log(y) )
+  where
+    a = 100
 
 -- slice sampling
 -- algorithm from https://en.wikipedia.org/wiki/Slice_sampling
@@ -67,10 +71,8 @@ rands = randsAB 0 1
 
 -- Given only yellow customers, what are the average and maximum customer waiting times?
 type Accumulator = ([(Double,Double)], Double, Double, Double, Double)
-task1 :: Int -> (Double, Double) -- returns (waitedTime, maxTime)
-task1 n = (waitedTime / fromIntegral n, maxTime)
--- task1 n = (q, ss3, waitedTime / fromIntegral n, maxTime, currTime3)
-  -- for debug
+--task1 :: Int -> (Double, Double) -- returns (waitedTime, maxTime)
+task1 n = (q, ss3, waitedTime / fromIntegral n, maxTime, currTime3)
   where
     (q, ss3, waitedTime, maxTime, currTime3) = foldl' go ([(1,5)], 0, 0, 0, 1) (randList n)
     -- queue is a list of tuples, each representing a person waiting in line
@@ -103,7 +105,5 @@ randList n = take n $ splitEvery 3 $ rands
 main :: IO ()
 main = do
   print $ take 1 $ rands
+  print $ task1 100
   -- print $ foldl' (++) [] (randList 2)
-
-t1 n = do
-  print $ task1 n
