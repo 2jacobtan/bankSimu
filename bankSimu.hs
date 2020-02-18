@@ -9,7 +9,7 @@ import Data.List (foldl')
 -- CDF is 1 - e^(-t/a)
 -- PDF is (1/a) * e^(-t/a) -- computed by hand the derivative of CDF
 -- probability density function PDF must be used, for slice sampling
-
+-- grahps of CDF and PDF at https://www.desmos.com/calculator/gqdoaxeo4i
 a = 100
 -- probability that next customer arrives t seconds later
 f t = (1/a) * exp (-t/a)
