@@ -12,7 +12,7 @@ Annotated screenshot:
 https://github.com/2jacobtan/bankSimu/blob/master/Screenshots%20of%20assignment/screenshot%20(annotated).png
 
 # Notes:
-The statistical distribution of "time of next customer arrival" was given as a cumulative distribution function, which cannot be used with slice sampling (which requires a probability density function). Hence, I took the derivative of the CDF to get the PDF.
+The statistical distribution of "time until next customer arrival" was given as a cumulative distribution function, which cannot be used with slice sampling (which requires a probability density function). Hence, I took the derivative of the CDF to get the PDF.
 
 I also manipulated the equation for the PDF, to get the inverse function of PDF, for use in slice sampling algorithm. 
 
