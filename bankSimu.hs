@@ -72,7 +72,7 @@ task1 bColour n = (waitedTime / fromIntegral n, maxTime)
 -- task1 n = (q, ss3, waitedTime / fromIntegral n, maxTime, currTime3)
   -- for debug
   where
-    (q, ss3, waitedTime, maxTime, currTime3) = foldl' go ([(1,5)], 0, 0, 0, 1) (randList n)
+    (q, ss3, waitedTime, maxTime, currTime3) = foldl' go ([], 0, 0, 0, 0) (randList n)
     -- queue is a list of tuples, each representing a person waiting in line
       -- fst is time arrived, snd is process time
     go :: Accumulator -> [Double] -> Accumulator
@@ -90,7 +90,7 @@ task1 bColour n = (waitedTime / fromIntegral n, maxTime)
           -- when active customer finishes before next customer arrives:
           | snd x < ss' = processing (xs, ss' - snd x, waitedTime' + currTime' - fst x, max maxTime' (currTime' - fst x), currTime' + snd x)
           -- when active customer finishes after next custoremr arrives: fast-forward until next customer arrives
-          | otherwise = ((fst x, snd x - ss'):xs, 0, waitedTime', maxTime', currTime' + ss')
+          | otherwise = (((fst x, snd x - ss'):xs)++[(currTime' + ss',b1)], 0, waitedTime', maxTime', currTime' + ss')
         -- extract the 3 random numbers
         [r0,r1,r2] = rList
         -- generate new customer's arrival time and process time
@@ -129,3 +129,43 @@ t3 n = do
 test = do
   print $ take 1 $ rands
   print $ foldl' (++) [] (randList 2)
+
+
+-- Hereon dedicated to task 2
+
+t2 n = do
+  print $ task2 bR n
+
+-- task 2: copy-edit from task 1 code
+type Accumulator2 = ([(Double,Double)], Double, Double, Double, Double,Double,Int)
+-- task2 :: (Double -> Double) -> Int -> (Double, Double)
+-- task2 bColour n = (waitedTime / fromIntegral n, maxTime)
+task2 :: (Double -> Double) -> Int -> (Double, Int)
+task2 bColour n = (avgQLen, maxQLen)
+-- task1 n = (q, ss3, waitedTime / fromIntegral n, maxTime, currTime3)
+  -- for debug
+  where
+    (q, ss3, waitedTime, maxTime, currTime3, avgQLen, maxQLen) = foldl' go ([], 0, 0, 0, 0, 0, 0) (randList n)
+    -- queue is a list of tuples, each representing a person waiting in line
+      -- fst is time arrived, snd is process time
+    go :: Accumulator2 -> [Double] -> Accumulator2
+    go (queue0, ss0, waitedTime0, maxTime0, currTime0, avgQLen0, maxQLen0) rList
+      = (queue2, ss1, waitedTime2, maxTime2, currTime2, avgQLen2, maxQLen2)
+      where
+        (queue2, _, waitedTime2, maxTime2, currTime2, avgQLen2, maxQLen2)
+          = processing (queue0, ss1, waitedTime0, maxTime0, currTime0, avgQLen0, maxQLen0)
+        processing :: Accumulator2 -> Accumulator2
+        -- when nobody in queue: fast-forward until next customer arrives
+        processing ([], ss', waitedTime', maxTime', currTime', avgQLen', maxQLen')
+          = ([(currTime' + ss', b1)], 0, waitedTime', maxTime', currTime' + ss', avgQLen', maxQLen')
+        -- when there's a queue:
+        processing (x:xs, ss', waitedTime', maxTime', currTime', avgQLen', maxQLen')
+          -- when active customer finishes before next customer arrives:
+          | snd x < ss' = processing (xs, ss' - snd x, waitedTime' + currTime' - fst x, max maxTime' (currTime' - fst x), currTime' + snd x, avgQLen', max maxQLen' (length (x:xs)))
+          -- when active customer finishes after next custoremr arrives: fast-forward until next customer arrives
+          | otherwise = (((fst x, snd x - ss'):xs)++[(currTime' + ss',b1)], 0, waitedTime', maxTime', currTime' + ss', avgQLen', maxQLen')
+        -- extract the 3 random numbers
+        [r0,r1,r2] = rList
+        -- generate new customer's arrival time and process time
+        ss1 = ss ss0 r0 r1
+        b1 = bColour r2
