@@ -53,7 +53,7 @@ rands = randsAB 0 1
 -- - Which type of customer(yellow, red or blue) gives the gives the closest value between the average and maximum customer waiting times?
 
 {- Soloution v1 (abandoned) -}
--- generate list (length n) of tulpes:
+-- generate list (length n) of tuples:
   -- (time taken to arrive after previous customer, processing time taken)
 -- fold over the list to get required statistics
 
@@ -66,7 +66,7 @@ rands = randsAB 0 1
   -- processing time takes 1
 
 -- Given only yellow customers, what are the average and maximum customer waiting times?
-type Accumulator = ([(Double,Double)], Double, Double, Double, Double)
+type Accumulator = ([(Double,Double,Double)], Double, Double, Double, Double)
 task1 :: (Double -> Double) -> Int -> (Double, Double) -- returns (waitedTime, maxTime)
 task1 bColour n = (waitedTime / fromIntegral n, maxTime)
 -- task1 n = (q, ss3, waitedTime / fromIntegral n, maxTime, currTime3)
@@ -84,13 +84,15 @@ task1 bColour n = (waitedTime / fromIntegral n, maxTime)
         processing :: Accumulator -> Accumulator
         -- when nobody in queue: fast-forward until next customer arrives
         processing ([], ss', waitedTime', maxTime', currTime')
-          = ([(currTime' + ss', b1)], 0, waitedTime', maxTime', currTime' + ss')
+          = ([(currTime' + ss', b1, b1)], 0, waitedTime', maxTime', currTime' + ss')
         -- when there's a queue:
         processing (x:xs, ss', waitedTime', maxTime', currTime')
           -- when active customer finishes before next customer arrives:
-          | snd x < ss' = processing (xs, ss' - snd x, waitedTime' + currTime' - fst x, max maxTime' (currTime' - fst x), currTime' + snd x)
+          | pT' < ss' = processing (xs, ss' - pT', waitedTime' + (currTime' + pT' - pT - arrT), max maxTime' (currTime' + pT' - pT - arrT), currTime' + pT')
           -- when active customer finishes after next custoremr arrives: fast-forward until next customer arrives
-          | otherwise = (((fst x, snd x - ss'):xs)++[(currTime' + ss',b1)], 0, waitedTime', maxTime', currTime' + ss')
+          | otherwise = (((arrT, pT' - ss', pT):xs)++[(currTime' + ss',b1,b1)], 0, waitedTime', maxTime', currTime' + ss')
+          where
+            (arrT, pT', pT) = x
         -- extract the 3 random numbers
         [r0,r1,r2] = rList
         -- generate new customer's arrival time and process time
