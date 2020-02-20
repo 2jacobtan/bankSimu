@@ -20,6 +20,8 @@ Slice sampling algorithm was hand-coded.
 
 Refer to https://www.desmos.com/calculator/gqdoaxeo4i for graphs of CDF and PDF.
 
+Edit: slice sampling was technically not the right approach. Inverse Transform Sampling is what I should have used on the CDF.
+
 # Other thoughts:
 Have never encountered such a problem before, and took a while to explore different possible ways of solving the problem.
 
