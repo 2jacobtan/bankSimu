@@ -29,7 +29,7 @@ Some kind of brute-force algorithm may have sufficed, but I wanted to write an a
 
 Considered using existing slice sampling module, e.g. https://hackage.haskell.org/package/speedy-slice, but since the PDF was strictly monotonic, I could code a much faster algorithm using the inverse PDF function.
 
-*** should have used record types, but I was not familiar with using it in Haskell when I did this assignment :(
+*** should have used record syntax, but I was lazy and not familiar with using it in Haskell when I did this assignment :(
 
 # GHCI (REPL) output:
 ![GHCI outut](https://github.com/2jacobtan/bankSimu/blob/master/Screenshots%20of%20assignment/GHCI%20(REPL)%20output.PNG)
