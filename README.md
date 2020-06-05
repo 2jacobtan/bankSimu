@@ -31,6 +31,8 @@ Considered using existing slice sampling module, e.g. https://hackage.haskell.or
 
 *** should have used record syntax, but I was lazy and not familiar with using it in Haskell when I did this assignment :(
 
+Code for the two tasks could be merged, but I wanted to show the process of coming up with the solution, instead of "erasing the working".
+
 # GHCI (REPL) output:
 ![GHCI outut](https://github.com/2jacobtan/bankSimu/blob/master/Screenshots%20of%20assignment/GHCI%20(REPL)%20output.PNG)
 
