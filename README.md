@@ -1,4 +1,10 @@
 # bankSimu
+
+official solution at secret gist:
+https://gist.github.com/2jacobtan/1dbd89de5a003f83f9c92ba9bb13d1d0
+
+---
+
 use [bankSimu.hs](https://github.com/2jacobtan/bankSimu/blob/master/bankSimu.hs)
 
 (run the "main" function)
