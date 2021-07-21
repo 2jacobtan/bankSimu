@@ -1,6 +1,6 @@
 # bankSimu
 
-note to self: solution in secret gist (search "bank simulation")
+note to self: official solution in secret gist (search "bank simulation")
 
 ---
 
