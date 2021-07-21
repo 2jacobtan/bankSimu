@@ -1,7 +1,6 @@
 # bankSimu
 
-official solution at secret gist:
-https://gist.github.com/2jacobtan/1dbd89de5a003f83f9c92ba9bb13d1d0
+note to self: solution in secret gist (search "bank simulation")
 
 ---
 
